@@ -25,8 +25,9 @@ def home_page():
 @app.route('/survey_start')
 def start_survey():
    """Reset response cache for new survey, redirect to first question"""
+   session['responses'] = []
 
-   responses = []
+#    responses = []
 
    return redirect('/questions/0')
 
@@ -35,6 +36,7 @@ def questions_page(idx):
     """Shows survey questions"""
 
     question = survey.questions[idx]
+    responses = session.get(responses)
 
     """ Prevent user from skipping questions """
     if (idx != len(responses)):
@@ -52,7 +54,11 @@ def answer_redirect():
     """Upon submission, save answer, increase queston index or send to endscreen"""
     answer = request.form['answer']
 
+    responses = session['responses']
+
     responses.append(answer)
+
+    session['responses'] = responses
     if (answer == null):
        return redirect('/')
 
