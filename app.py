@@ -34,8 +34,10 @@ def start_survey():
 @app.route('/questions/<int:idx>')
 def questions_page(idx):
     """Shows survey questions"""
-
+    """Call the correct question per current index"""
     question = survey.questions[idx]
+
+    """ Establish responses list as current session responses list"""
     responses = session.get(responses)
 
     """ Prevent user from skipping questions """
@@ -59,6 +61,7 @@ def answer_redirect():
     responses.append(answer)
 
     session['responses'] = responses
+    
     if (answer == null):
        return redirect('/')
 
